@@ -15,11 +15,11 @@ jobs:
     steps:
       # 1. Checkout repo
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Setup Node.js (change if using Python/Java/etc.)
+      # 2. Setup Node.js (adjust version if needed)
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -27,17 +27,32 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. Run tests
+      # 4. Show available npm scripts (debugging step)
+      - name: Show npm scripts
+        run: npm run
+
+      # 5. Run tests (skip if no "test" script exists)
       - name: Run tests
-        run: npm test
+        run: |
+          if npm run | grep -q "test"; then
+            npm test
+          else
+            echo "No test script found, skipping..."
+          fi
 
-      # 5. Build project
+      # 6. Build project (skip if no "build" script exists)
       - name: Build project
-        run: npm run build
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script found, skipping..."
+          fi
 
-      # 6. Upload build artifacts (optional)
+      # 7. Upload build artifacts (only if build/ folder exists)
       - name: Upload production-ready files
-        uses: actions/upload-artifact@v3
+        if: success() && (hashFiles('build/**') != '')
+        uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: build/
