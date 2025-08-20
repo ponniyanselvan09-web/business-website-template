@@ -15,11 +15,11 @@ jobs:
     steps:
       # 1. Checkout repo
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 2. Setup Node.js (change if using Python/Java/etc.)
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -35,9 +35,9 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # 6. Upload build artifacts (optional)
+      # 6. Upload build artifacts (use latest v4)
       - name: Upload production-ready files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: build/
