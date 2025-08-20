@@ -6,7 +6,7 @@
   "author": "Shubham Vishwakarma",
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && react-scripts build"
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
